@@ -41,6 +41,8 @@ class JSONWebTokenLoginHandler(BaseHandler):
             claims = self.verify_jwt_with_claims(token, signing_certificate, audience)
         else:
            raise web.HTTPError(401)
+        if not claims['DATALAB']:
+           raise web.HTTPError(401)
 
         username = self.retrieve_username(claims, username_claim_field)
         user = self.user_from_username(username)
